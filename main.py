@@ -1,5 +1,5 @@
 from atendimento import Atendimento
-import erros
+
 
 '''
 Por enquanto o main.py é uma zona de testes

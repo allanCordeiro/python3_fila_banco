@@ -48,7 +48,7 @@ class Fila:
         self._fila_atual.pop(0)
 
     def tem_vaga_na_fila(self) -> bool:
-        if TAMANHO_FILA >= self._codigo:
+        if TAMANHO_FILA > len(self._fila_atual):
             return True
         else:
             return False
