@@ -1,4 +1,4 @@
-from datetime import datetime, time
+from datetime import datetime, time, timedelta
 from constants import CODIGO_FILA_NORMAL, \
     CODIGO_FILA_PRIORITARIA, TAMANHO_FILA
 import erros
@@ -36,6 +36,8 @@ class Fila:
     def registrar_atendido(self) -> None:
         senha_chamada = self._fila_atual[0]
         senha_chamada['hora_atendimento'] = datetime.now()
+        delta = senha_chamada['hora_atendimento'] - senha_chamada['hora_geracao']
+        senha_chamada['tempo_fila'] = delta
 
         self._fila_atendida.append(senha_chamada)
         self._fila_atual.pop(0)
@@ -70,7 +72,5 @@ class FilaPrioritaria(Fila):
                 'A agência atingiu o limite de atendimentos no momento.')
 
 '''
-classe fila normal para clientes normais
-classe fila prioritaria para clientes fila prioritaria
 relatório simples e detalhado do dia salvos em txt
 '''
