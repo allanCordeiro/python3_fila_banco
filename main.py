@@ -16,9 +16,20 @@ while x < 10:
 
 print('******* FILA NORMAL ********')
 print(fila_normal.chamar_senha(2))
+segura_tempo = input('Input para ajudar a mensurar os tempos de espera')
 print('***** FILA PRIORITARIA *****')
 print(fila_prioritaria.chamar_senha(10))
+segura_tempo = input('Input para ajudar a mensurar os tempos de espera')
 print('******* FILA NORMAL ********')
 print(fila_normal.chamar_senha(1))
+segura_tempo = input('Input para ajudar a mensurar os tempos de espera')
 print('***** FILA PRIORITARIA *****')
 print(fila_prioritaria.chamar_senha(3))
+segura_tempo = input('Input para ajudar a mensurar os tempos de espera')
+
+
+
+
+atendidos = fila_normal.fila_atendida
+for atendido in atendidos:
+    print(atendido)

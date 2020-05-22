@@ -9,6 +9,10 @@ class Fila:
     _fila_atual: list = []
     _fila_atendida: list = []
 
+    @property
+    def fila_atendida(self):
+        return self._fila_atendida
+
     def gerar_senha(self) -> None:
         if self.tem_vaga_na_fila():
             self._codigo += 1
@@ -36,7 +40,8 @@ class Fila:
     def registrar_atendido(self) -> None:
         senha_chamada = self._fila_atual[0]
         senha_chamada['hora_atendimento'] = datetime.now()
-        delta = senha_chamada['hora_atendimento'] - senha_chamada['hora_geracao']
+        delta = senha_chamada['hora_atendimento'] \
+                - senha_chamada['hora_geracao']
         senha_chamada['tempo_fila'] = delta
 
         self._fila_atendida.append(senha_chamada)
