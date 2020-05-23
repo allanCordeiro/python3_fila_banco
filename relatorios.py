@@ -8,6 +8,7 @@ from constants import CODIGO_FILA_PRIORITARIA, CODIGO_FILA_NORMAL
 class Relatorios:
 
     _dados_relatorio_simples: dict = {}
+    _dados_relatorio_completo: List = []
 
     def relatorio_simples(self, data_relatorio: str) -> dict:
 
@@ -54,8 +55,13 @@ class Relatorios:
         return contador
 
 
-    def relatorio_detalhado(self):
-            ...
+    def relatorio_detalhado(self, data_relatorio: str) -> List:
+        cabecalho = self.relatorio_simples(data_relatorio)
+        dados = self._ler_arquivo(data_relatorio)
+        self._dados_relatorio_completo.append(cabecalho)
+        self._dados_relatorio_completo.append(dados)
+
+        return self._dados_relatorio_completo
 
     @staticmethod
     def gerar_arquivo(senhas: List) -> None:

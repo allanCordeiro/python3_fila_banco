@@ -39,3 +39,6 @@ relatorios = Relatorios()
 for relatorio, valor in relatorios.relatorio_simples('22-05-2020').items():
     print(relatorio, valor)
 
+print('*********** RELATORIO COMPLETO ***********')
+for dados in relatorios.relatorio_detalhado('22-05-2020'):
+    print(dados)
