@@ -1,6 +1,7 @@
 from datetime import datetime, time, timedelta
 from constants import CODIGO_FILA_NORMAL, \
     CODIGO_FILA_PRIORITARIA, TAMANHO_FILA
+from relatorios import Relatorios
 import erros
 
 class Fila:
@@ -33,13 +34,14 @@ class Fila:
 
     def chamar_senha(self, caixa: int) -> str:
         proxima_senha = self._fila_atual[0]
-        self.registrar_atendido()
+        self.registrar_atendido(caixa)
         return f'SENHA {proxima_senha["senha"]}\n' \
                f'CAIXA {caixa}'
 
-    def registrar_atendido(self) -> None:
+    def registrar_atendido(self, caixa: int) -> None:
         senha_chamada = self._fila_atual[0]
         senha_chamada['hora_atendimento'] = datetime.now()
+        senha_chamada['caixa'] = caixa
         delta = senha_chamada['hora_atendimento'] \
                 - senha_chamada['hora_geracao']
         senha_chamada['tempo_fila'] = delta
@@ -52,6 +54,10 @@ class Fila:
             return True
         else:
             return False
+
+    def limpar_fila(self) -> None:
+        Relatorios.gerar_arquivo(self._fila_atendida)
+        self._fila_atendida.clear()
 
 class FilaNormal(Fila):
     def gerar_senha(self) -> None:
