@@ -110,14 +110,16 @@ def tela_gerente():
         print(' 1. Para gravar atendimento')
         print(' 2. para relatório simples')
         print(' 3. para relatório detalhado')
+        print(' 4. para menu principal')
         menu_principal = int(input(' Digite a opção desejada: '))
         if menu_principal == 1:
             print(guardar_atendimento())
         elif menu_principal == 2:
             tela_relatorio_simples()
         elif menu_principal == 3:
-            #tela_relatorio_detalhado()
-            break
+            tela_relatorio_detalhado()
+        elif menu_principal == 4:
+            tela_principal()
         else:
             print('\n *** ATENÇÃO: A opção digitada é inválida.\n')
 
@@ -145,7 +147,39 @@ def tela_relatorio_simples():
         print(f'{caixa:>8}\t{qtde:>19}')
     print(f'*****************************************************************')
     input('Pressione qualquer tecla para voltar.')
+    tela_gerente()
 
+
+def tela_relatorio_detalhado():
+    # relatorio sempre do dia (por enquanto)
+    nome_relatorio = buscar_formato_dia()
+    relatorio = Relatorios()
+    dados_relatorio = relatorio.relatorio_detalhado(nome_relatorio)
+
+    print(f'*************** RELATÓRIO DETALHADO DO DIA {nome_relatorio} *******'
+          f'********')
+    print(f'QUANTIDADE DE CLIENTES ATENDIDOS: '
+          f'{dados_relatorio[0]["qte_atendimento"]}')
+    print(f'QUANTIDADE DE CLIENTES NORMAL: {dados_relatorio[0]["qte_normal"]}')
+    print(f'QUANTIDADE DE CLIENTES PRIORIDADE: '
+          f'{dados_relatorio[0]["qte_prioritario"]}')
+    print('VOLUME POR CAIXA: ')
+    print('CAIXA NO\tQUANTIDADE CLIENTES')
+    for caixa, qtde in dados_relatorio[0]["por_caixa"].items():
+        print(f'{caixa:>8}\t{qtde:>19}')
+    print(f'*******************************************************************')
+    print('SENHA NO\tCAIXA\tHORA GERACAO\t\t HORA ATENDIMENTO'
+          '\t\tTEMPO PARA ATENDIMENTO')
+    for linha in dados_relatorio[1]:
+        print(f'{linha["senha"]:15}'
+              f'{linha["caixa"]:5}'
+              f'{linha["hora_geracao"]:21}'
+              f'{linha["hora_atendimento"]:23}'
+              f'{linha["tempo_atendimento"]}')
+
+    print(f'*******************************************************************')
+    input('Pressione qualquer tecla para voltar.')
+    tela_gerente()
 
 def buscar_formato_dia() -> str:
     nome_relatorio = datetime.now().strftime("%d-%m-%Y")
