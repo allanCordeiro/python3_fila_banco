@@ -1,6 +1,7 @@
 from atendimento import Atendimento
 from relatorios import Relatorios
 import os
+from datetime import datetime
 
 def tela_principal():
     os.system('clear')
@@ -113,8 +114,7 @@ def tela_gerente():
         if menu_principal == 1:
             print(guardar_atendimento())
         elif menu_principal == 2:
-            #tela_relatorio_simples()
-            break
+            tela_relatorio_simples()
         elif menu_principal == 3:
             #tela_relatorio_detalhado()
             break
@@ -125,6 +125,31 @@ def guardar_atendimento():
     limpar_fila = Atendimento.iniciar_atendimento()
     limpar_fila.limpar_fila()
     return f'Arquivo gerado com sucesso!'
+
+def tela_relatorio_simples():
+    #relatorio sempre do dia (por enquanto)
+    nome_relatorio = buscar_formato_dia()
+    relatorio = Relatorios()
+    dados_relatorio = relatorio.relatorio_simples(nome_relatorio)
+
+    print(f'*************** RELATÓRIO SIMPLES DO DIA {nome_relatorio} *******'
+          f'********')
+    print(f'QUANTIDADE DE CLIENTES ATENDIDOS: '
+          f'{dados_relatorio["qte_atendimento"]}')
+    print(f'QUANTIDADE DE CLIENTES NORMAL: {dados_relatorio["qte_normal"]}')
+    print(f'QUANTIDADE DE CLIENTES PRIORIDADE: '
+          f'{dados_relatorio["qte_prioritario"]}')
+    print('VOLUME POR CAIXA: ')
+    print('CAIXA NO\tQUANTIDADE CLIENTES')
+    for caixa, qtde in dados_relatorio["por_caixa"].items():
+        print(f'{caixa:>8}\t{qtde:>19}')
+    print(f'*****************************************************************')
+    input('Pressione qualquer tecla para voltar.')
+
+
+def buscar_formato_dia() -> str:
+    nome_relatorio = datetime.now().strftime("%d-%m-%Y")
+    return nome_relatorio
 
 
 if __name__ == "__main__":
